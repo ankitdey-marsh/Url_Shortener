@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shorter</title>
+</head>
+<body>
+    <h1>URL Shorter</h1>
+    <form id="url-form">
+        <input type="text" name="url" id="url-input" placeholder="Enter the URL" required>
+        <button type="submit">Shorten URL</button>
+    </form>
+    <script>
+        const form = document.getElementById('url-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const urlInput = document.getElementById('url-input');
+            const url = urlInput.value;
+            const response = await fetch('http://127.0.0.1:5000/sh/' + encodeURIComponent(url), {
+                method: 'POST',
+                body: ''
+            });
+            if (response.status === 201) {
+                const response = await fetch('./text.txt');
+                const data = await response.text();
+                const lat1 = (data.split('\n')[0]);
+                alert("localhost:5000/"+lat1);
+            } else {
+                alert('Failed to store URL');
+            }
+        });
+    </script>
+</body>
+</html>
